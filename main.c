@@ -142,6 +142,7 @@ static void usage(const char *argv0) {
 		   "  -V <control>\t\tUse ALSA control for volume adjustment, otherwise use software volume adjustment\n"
 		   "  -X \t\t\tUse linear volume adjustments instead of in terms of dB (only for hardware volume control)\n"
 #endif
+		   "  -I \t\t\tIgnore volume commands from server\n"
 #if LINUX || FREEBSD || SUN
 		   "  -z \t\t\tDaemonize\n"
 #endif
@@ -370,7 +371,7 @@ int main(int argc, char **argv) {
 				   , opt) && optind < argc - 1) {
 			optarg = argv[optind + 1];
 			optind += 2;
-		} else if (strstr("ltz?W"
+		} else if (strstr("ltz?WI"
 #if ALSA
 						  "LX"
 #endif
@@ -609,6 +610,9 @@ int main(int argc, char **argv) {
 			output_mixer = optarg;
 			break;
 #endif
+		case 'I':
+			ignore_volume = true;
+			break;
 #if IR
 		case 'i':
 			if (optind < argc && argv[optind] && argv[optind][0] != '-') {

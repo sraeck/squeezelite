@@ -444,7 +444,11 @@ static void process_audg(u8_t *pkt, int len) {
 
 	LOG_DEBUG("audg gainL: %u gainR: %u adjust: %u", audg->gainL, audg->gainR, audg->adjust);
 
-	set_volume(audg->adjust ? audg->gainL : FIXED_ONE, audg->adjust ? audg->gainR : FIXED_ONE);
+	if (ignore_volume) {
+		set_volume(FIXED_ONE, FIXED_ONE);
+	} else {
+		set_volume(audg->adjust ? audg->gainL : FIXED_ONE, audg->adjust ? audg->gainR : FIXED_ONE);
+	}
 }
 
 static void process_setd(u8_t *pkt, int len) {
